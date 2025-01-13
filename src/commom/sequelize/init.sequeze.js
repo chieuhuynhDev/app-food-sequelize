@@ -15,11 +15,4 @@ sequelize
     console.log(`Kết nối với db KHÔNG thành công`);
   });
 
-// try {
-//    await sequelize.authenticate();
-//    console.log(`Kết nối với db thành công`);
-// } catch (error) {
-//    console.log(`Kết nối với db KHÔNG thành công`);
-// }
-
 export default models;

@@ -1,7 +1,7 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class video_type extends Model {
+export default class food_type extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
     type_id: {
@@ -13,16 +13,11 @@ export default class video_type extends Model {
     type_name: {
       type: DataTypes.STRING(255),
       allowNull: false
-    },
-    icon: {
-      type: DataTypes.STRING(255),
-      allowNull: true
     }
   }, {
     sequelize,
-    tableName: 'video_type',
-    timestamps: true,
-    timestamp: false,
+    tableName: 'food_type',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",

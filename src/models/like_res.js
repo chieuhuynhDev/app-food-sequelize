@@ -1,20 +1,16 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class chats extends Model {
+export default class like_res extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    chat_id: {
+    like_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    message: {
-      type: DataTypes.TEXT,
-      allowNull: true
-    },
-    user_id_sender: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
@@ -22,40 +18,44 @@ export default class chats extends Model {
         key: 'user_id'
       }
     },
-    user_id_recipient: {
+    res_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'users',
-        key: 'user_id'
+        model: 'restaurant',
+        key: 'res_id'
       }
+    },
+    date_like: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
-    tableName: 'chats',
-    timestamps: true,
-    timestamp: false,
+    tableName: 'like_res',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "chat_id" },
+          { name: "like_id" },
         ]
       },
       {
-        name: "user_id_sender",
+        name: "user_id",
         using: "BTREE",
         fields: [
-          { name: "user_id_sender" },
+          { name: "user_id" },
         ]
       },
       {
-        name: "user_id_recipient",
+        name: "res_id",
         using: "BTREE",
         fields: [
-          { name: "user_id_recipient" },
+          { name: "res_id" },
         ]
       },
     ]

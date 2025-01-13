@@ -1,59 +1,49 @@
 import _sequelize from "sequelize";
 const DataTypes = _sequelize.DataTypes;
-import _cars from "./cars.js";
-import _chats from "./chats.js";
-import _permissions from "./permissions.js";
-import _role_permissions from "./role_permissions.js";
-import _roles from "./roles.js";
-import _users from "./users.js";
-import _video_type from "./video_type.js";
-import _videos from "./videos.js";
+import _food from  "./food.js";
+import _food_type from  "./food_type.js";
+import _like_res from  "./like_res.js";
+import _orders from  "./orders.js";
+import _rate_res from  "./rate_res.js";
+import _restaurant from  "./restaurant.js";
+import _sub_food from  "./sub_food.js";
+import _users from  "./users.js";
 
 export default function initModels(sequelize) {
-  const cars = _cars.init(sequelize, DataTypes);
-  const chats = _chats.init(sequelize, DataTypes);
-  const permissions = _permissions.init(sequelize, DataTypes);
-  const role_permissions = _role_permissions.init(sequelize, DataTypes);
-  const roles = _roles.init(sequelize, DataTypes);
+  const food = _food.init(sequelize, DataTypes);
+  const food_type = _food_type.init(sequelize, DataTypes);
+  const like_res = _like_res.init(sequelize, DataTypes);
+  const orders = _orders.init(sequelize, DataTypes);
+  const rate_res = _rate_res.init(sequelize, DataTypes);
+  const restaurant = _restaurant.init(sequelize, DataTypes);
+  const sub_food = _sub_food.init(sequelize, DataTypes);
   const users = _users.init(sequelize, DataTypes);
-  const video_type = _video_type.init(sequelize, DataTypes);
-  const videos = _videos.init(sequelize, DataTypes);
 
-  role_permissions.belongsTo(permissions, {
-    as: "permission",
-    foreignKey: "permission_id",
-  });
-  permissions.hasMany(role_permissions, {
-    as: "role_permissions",
-    foreignKey: "permission_id",
-  });
-  role_permissions.belongsTo(roles, { as: "role", foreignKey: "role_id" });
-  roles.hasMany(role_permissions, {
-    as: "role_permissions",
-    foreignKey: "role_id",
-  });
-  chats.belongsTo(users, {
-    as: "user_id_sender_user",
-    foreignKey: "user_id_sender",
-  });
-  users.hasMany(chats, { as: "chats", foreignKey: "user_id_sender" });
-  chats.belongsTo(users, {
-    as: "user_id_recipient_user",
-    foreignKey: "user_id_recipient",
-  });
-  users.hasMany(chats, {
-    as: "user_id_recipient_chats",
-    foreignKey: "user_id_recipient",
-  });
+  orders.belongsTo(food, { as: "food", foreignKey: "food_id"});
+  food.hasMany(orders, { as: "orders", foreignKey: "food_id"});
+  sub_food.belongsTo(food, { as: "food", foreignKey: "food_id"});
+  food.hasMany(sub_food, { as: "sub_foods", foreignKey: "food_id"});
+  food.belongsTo(food_type, { as: "type", foreignKey: "type_id"});
+  food_type.hasMany(food, { as: "foods", foreignKey: "type_id"});
+  like_res.belongsTo(restaurant, { as: "re", foreignKey: "res_id"});
+  restaurant.hasMany(like_res, { as: "like_res", foreignKey: "res_id"});
+  rate_res.belongsTo(restaurant, { as: "re", foreignKey: "res_id"});
+  restaurant.hasMany(rate_res, { as: "rate_res", foreignKey: "res_id"});
+  like_res.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(like_res, { as: "like_res", foreignKey: "user_id"});
+  orders.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(orders, { as: "orders", foreignKey: "user_id"});
+  rate_res.belongsTo(users, { as: "user", foreignKey: "user_id"});
+  users.hasMany(rate_res, { as: "rate_res", foreignKey: "user_id"});
 
   return {
-    cars,
-    chats,
-    permissions,
-    role_permissions,
-    roles,
+    food,
+    food_type,
+    like_res,
+    orders,
+    rate_res,
+    restaurant,
+    sub_food,
     users,
-    video_type,
-    videos,
   };
 }

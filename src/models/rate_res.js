@@ -1,62 +1,65 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class role_permissions extends Model {
+export default class rate_res extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    role_permissions_id: {
+    rate_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    role_id: {
+    user_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'roles',
-        key: 'role_id'
+        model: 'users',
+        key: 'user_id'
       }
     },
-    permission_id: {
+    res_id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: 'permissions',
-        key: 'permission_id'
+        model: 'restaurant',
+        key: 'res_id'
       }
     },
-    is_deleted: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-      defaultValue: 0
+    amount: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    date_rate: {
+      type: DataTypes.DATE,
+      allowNull: true,
+      defaultValue: Sequelize.Sequelize.literal('CURRENT_TIMESTAMP')
     }
   }, {
     sequelize,
-    tableName: 'role_permissions',
-    timestamps: true,
-    timestamp: false,
+    tableName: 'rate_res',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "role_permissions_id" },
+          { name: "rate_id" },
         ]
       },
       {
-        name: "role_id",
+        name: "user_id",
         using: "BTREE",
         fields: [
-          { name: "role_id" },
+          { name: "user_id" },
         ]
       },
       {
-        name: "permission_id",
+        name: "res_id",
         using: "BTREE",
         fields: [
-          { name: "permission_id" },
+          { name: "res_id" },
         ]
       },
     ]

@@ -1,43 +1,49 @@
 import _sequelize from 'sequelize';
 const { Model, Sequelize } = _sequelize;
 
-export default class permissions extends Model {
+export default class sub_food extends Model {
   static init(sequelize, DataTypes) {
   return super.init({
-    permission_id: {
+    sub_id: {
       autoIncrement: true,
       type: DataTypes.INTEGER,
       allowNull: false,
       primaryKey: true
     },
-    name: {
+    sub_name: {
       type: DataTypes.STRING(255),
       allowNull: false
     },
-    endpoint: {
-      type: DataTypes.STRING(255),
+    sub_price: {
+      type: DataTypes.FLOAT,
       allowNull: false
     },
-    method: {
-      type: DataTypes.STRING(255),
-      allowNull: false
-    },
-    module: {
-      type: DataTypes.STRING(255),
-      allowNull: false
+    food_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      references: {
+        model: 'food',
+        key: 'food_id'
+      }
     }
   }, {
     sequelize,
-    tableName: 'permissions',
-    timestamps: true,
-    timestamp: false,
+    tableName: 'sub_food',
+    timestamps: false,
     indexes: [
       {
         name: "PRIMARY",
         unique: true,
         using: "BTREE",
         fields: [
-          { name: "permission_id" },
+          { name: "sub_id" },
+        ]
+      },
+      {
+        name: "food_id",
+        using: "BTREE",
+        fields: [
+          { name: "food_id" },
         ]
       },
     ]
