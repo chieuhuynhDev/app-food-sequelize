@@ -48,6 +48,55 @@ const likeResController = {
       next(error);
     }
   },
+  // Lấy danh sách like theo nhà hàng
+  async getLikesByRestaurant(req, res, next) {
+    const { id } = req.params;
+    const restaurant_id = parseInt(id, 10);
+
+    if (isNaN(restaurant_id)) {
+      return res.status(400).json({
+        success: false,
+        message: "ID nhà hàng không hợp lệ.",
+      });
+    }
+
+    try {
+      const result = await likeResService.getLikesByRestaurant(restaurant_id);
+
+      if (!result.success) {
+        return res.status(404).json(result);
+      }
+
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
+
+  // Lấy danh sách like theo user
+  async getLikesByUser(req, res, next) {
+    const { user_id } = req.params;
+    const userId = parseInt(user_id, 10);
+
+    if (isNaN(userId)) {
+      return res.status(400).json({
+        success: false,
+        message: "ID người dùng không hợp lệ.",
+      });
+    }
+
+    try {
+      const result = await likeResService.getLikesByUser(userId);
+
+      if (!result.success) {
+        return res.status(404).json(result);
+      }
+
+      res.status(200).json(result);
+    } catch (error) {
+      next(error);
+    }
+  },
 };
 
 export default likeResController;
