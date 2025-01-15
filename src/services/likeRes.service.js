@@ -71,6 +71,7 @@ const likeResService = {
       // Kiểm tra xem nhà hàng có tồn tại không
       const res = await restaurant.findOne({
         where: { res_id: restaurant_id },
+        raw: true,
       });
       if (!res) {
         return {
@@ -83,6 +84,7 @@ const likeResService = {
       // Lấy danh sách like
       const likes = await like_res.findAll({
         where: { res_id: restaurant_id },
+        raw: true,
         include: [
           {
             model: users,
@@ -135,6 +137,7 @@ const likeResService = {
             attributes: ["res_id", "res_name", "desc"],
           },
         ],
+        raw: true,
       });
 
       if (likes.length === 0) {
